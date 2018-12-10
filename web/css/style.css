@@ -1,0 +1,140 @@
+html {
+  background:linear-gradient(to bottom, #D5075E, rgb(40,0,113));
+}
+body {
+  display:flex;
+  justify-content: center;
+  height:100vh;
+  background-image: url('../images/logo.png');
+  background-size: 200px;
+  font-family: arial;
+}
+body.admin {
+  background-color:hsl(300, 0%, 30%);
+  background-repeat: no-repeat;
+  background-position: center 120px;
+}
+main {
+  width:750px;
+  min-height:300px;
+  max-height:500px;
+  margin:10px 0;
+  padding:10px;
+  border-radius: 20px 0 0 0;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8));
+  box-shadow: 0 0 24px rgba(0,0,0,0.8);
+  box-sizing: border-box;
+  color: white;
+}
+input {
+  border:0;
+  padding:4px;
+  outline:none;
+}
+/* ########## ZONE Identification */
+
+/* BOUTON Identification */
+#zon_iden {
+  display:flex;
+  justify-content: flex-start;
+  height:50px;
+  margin:0 0 20px 0;
+}
+#zon_iden button {
+  box-sizing: border-box;
+  width:43px;
+  height:43px;
+  outline:none;
+  border-radius: 50%;
+  border:3px inset hsl(0, 0%, 50%);
+  box-shadow: 10px 10px 4px rgba(255,255,255,0.5) inset;
+  background-color: rgb(255, 0, 0);
+  background-image: url('../images/on_off.png');
+  background-position: center center;
+  transition:0.25s;
+  cursor: pointer;
+}
+#zon_iden button:hover {
+  background-color: rgb(255, 100, 100);
+}
+#zon_iden.on button {
+  background-color: rgb(0, 255, 0);
+}
+#zon_iden.on button:hover, #zon_iden button:hover {
+  border:3px double hsl(0, 0%, 75%);
+  box-shadow: 8px 8px 4px rgba(255,255,255,0.5) inset;
+}
+
+/* INPUT Identification */
+#zon_iden input {
+  box-sizing: border-box;
+  height:43px;
+  margin:0 0 0 10px;
+  padding:4px;
+  background-color: rgba(255,255,255,0.15);
+  text-align: center;
+  color:white;
+  font-size: 24px;
+  font-weight: bold;
+}
+#zon_iden input::placeholder {
+  font-weight: normal;
+  text-align: center;
+  color:grey;
+}
+#zon_iden.on input {
+  background-color: transparent;
+  text-align: left;
+}
+
+/* ########## ZONE Texte */
+#zon_text {
+  display:none;
+  justify-content: space-between;
+  height:calc(100% - 70px);
+}
+#zon_text.on {
+  display:flex;
+}
+
+/* ##### AFF Tchat */
+#aff_tcha {
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex:auto;
+}
+#aff_tcha ul {
+  margin:0;
+  padding:0;
+  list-style: none;
+  overflow-y: auto;
+  width:100%;
+  max-height:100%;
+}
+#aff_tcha ul li.admin {
+  color:rgb(255, 255, 0);
+}
+#aff_tcha input {
+  background-color: rgba(255,255,255,0.15);
+  width:calc(100% - 34px);
+  margin:10px 0 0 0;
+  padding:4px;
+  color:white;
+  font-size: 20px;
+  line-height: 20px;
+}
+#aff_tcha div::before {
+  display:inline;
+  font-size: 20px;
+  line-height: 20px;
+  content:'► ';
+}
+
+/* ##### AFF List */
+#aff_list {
+  width:200px;
+  height:100%;
+  margin:0 0 0 10px;
+  background-color: rgba(255,255,255,0.15);
+}
