@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   // Initialisation
-  let conn, ident = null;
+  let conn, ident, tab_list, tempLI = null;
   let isConnected = false;
-  let uri = 'ws://127.0.0.1:8080/';
+  // let uri = 'ws://127.0.0.1:8080/';
+  let uri = 'ws://192.168.2.172:8080/';
 
   // Ciblages
   let zon_iden = document.querySelector("#zon_iden");
@@ -12,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let zon_text = document.querySelector("#zon_text");
   let aff_text = document.querySelector("#aff_tcha ul");
   let get_text = document.querySelector("#aff_tcha input");
-  let aff_list = document.querySelector('#aff_list');
+  let aff_list = document.querySelector('#aff_list ul');
 
   // EVENT appui sur ENTRÉE
   document.addEventListener('keydown', function(e){
@@ -33,17 +34,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function setOnline() {
     zon_iden.classList.add("on");
-    get_iden.setAttribute('disabled', 'true');
     zon_text.classList.add("on");
+    get_iden.setAttribute('disabled', 'true');
     get_text.focus();
     isConnected = true;
   }
 
   function setOffline() {
     zon_iden.classList.remove("on");
+    zon_text.classList.remove("on");
     get_iden.removeAttribute('disabled');
     get_iden.value="";
-    zon_text.classList.remove("on");
     isConnected = false;
   }
 
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     conn.send('{"msg":"'+msg+'"}');
-    let tempLI = document.createElement('li');
+    tempLI = document.createElement('li');
     tempLI.textContent = "Moi : " + msg;
     aff_text.appendChild(tempLI);
     get_text.value = '';
@@ -83,21 +84,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
       conn.onmessage = function(e) {
         obj_temp = JSON.parse(e.data);
-        let tempLI = document.createElement('li');
-        if (obj_temp.ident=="ADMIN") {
-          tempLI.className = "admin";
+        if (obj_temp.co) {
+          // Nouvelle CONNEXION
+          tempLI = document.createElement('li');
+          if (obj_temp.co=="ADMIN") {
+            tempLI.className = "admin";
+          }
+          tempLI.textContent = obj_temp.co;
+          tempLI.id = obj_temp.co+obj_temp.id;
+          aff_list.appendChild(tempLI);
+        } else if (obj_temp.deco) {
+          // Fin d'une CONNEXION
+          tempLI = aff_list.querySelector('li#'+obj_temp.deco+obj_temp.id);
+          aff_list.removeChild(tempLI);
+        } else {
+        // Nouveau MESSAGE
+          tempLI = document.createElement('li');
+          if (obj_temp.ident=="ADMIN") {
+            tempLI.className = "admin";
+          }
+          tempLI.textContent = obj_temp.ident + " : " + obj_temp.msg;
+          aff_text.appendChild(tempLI);
         }
-        tempLI.textContent = obj_temp.ident + " : " + obj_temp.msg;
-        aff_text.appendChild(tempLI);
       };
 
       conn.onopen = function(e) {
-        console.log(ident + " connecté");
+        tempLI = document.createElement('li');
+        tempLI.className = "admin";
+        tempLI.textContent = "Bienvenu sur le tchat Aries";
+        aff_text.appendChild(tempLI);
         identification();
       };
 
       conn.onclose = function(e) {
-        console.log(ident + " déconnecté");
+        aff_text.textContent = '';
+        aff_list.textContent = '';
         setOffline();
       };
     }

@@ -10,11 +10,11 @@ class Chat implements MessageComponentInterface {
     public function __construct() {
         $this->clients = new \SplObjectStorage;
         $this->administrateur = null;
-        echo "########## SERVEUR ON ##########\n";
+        echo "#####| SERVEUR ON\n";
     }
 
     public function __destruct() {
-        echo "########## SERVEUR OFF #########\n";
+        echo "#####| SERVEUR OFF\n";
     }
 
     public function onCall(ConnectionInterface $conn, $id, $topic, array $params) {
@@ -47,7 +47,7 @@ class Chat implements MessageComponentInterface {
         }
         // Affichage CONSOLE
         $this->tab_clients[$user_id] = $obj_mess->ident;
-        echo "########## CONNEXION ".$obj_mess->ident." (".$user_id.")\n";
+        echo "#####| CONNEXION ".$obj_mess->ident." (".$user_id.")\n";
         // BROADCAST Général
         foreach ($this->clients as $client) {
           if ($from !== $client) {
@@ -82,7 +82,7 @@ class Chat implements MessageComponentInterface {
     public function onClose(ConnectionInterface $conn) {
         // FORMATAGE
         $user_id = $conn->resourceId;
-        echo "########## DÉCONNEXION ".$this->tab_clients[$user_id]." (".$user_id.")\n";
+        echo "#####| DÉCONNEXION ".$this->tab_clients[$user_id]." (".$user_id.")\n";
         // BROADCAST
         foreach ($this->clients as $client) {
           if ($conn !== $client) {
@@ -97,7 +97,7 @@ class Chat implements MessageComponentInterface {
         // TEST
         if (count($this->tab_clients)==0) {
           // $this->__destruct();
-          echo "########## Salle vide...\n";
+          echo "#####| Salle vide...\n";
         }
     }
 

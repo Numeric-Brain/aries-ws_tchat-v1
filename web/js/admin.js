@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
   let conn, tab_list = null;
   let ident = "ADMIN";
   let isConnected = false;
-  let uri = 'ws://127.0.0.1:8080/';
+  // let uri = 'ws://127.0.0.1:8080/';
+  let uri = 'ws://192.168.2.172:8080/';
 
   // Ciblages
   let zon_iden = document.querySelector("#zon_iden");
@@ -101,12 +102,16 @@ document.addEventListener('DOMContentLoaded', function() {
       };
 
       conn.onopen = function(e) {
-        console.log(ident + " connecté");
+        tempLI = document.createElement('li');
+        tempLI.className = "admin";
+        tempLI.textContent = "Bienvenu sur le tchat Aries";
+        aff_text.appendChild(tempLI);
         identification();
       };
 
       conn.onclose = function(e) {
-        console.log(ident + " déconnecté");
+        aff_text.textContent = '';
+        aff_list.textContent = '';
         setOffline();
       };
     }
